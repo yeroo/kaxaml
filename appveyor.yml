@@ -16,7 +16,7 @@
 
   install:
     - choco install gitversion.portable -pre -y
-    - nuget restore
+    - nuget restore src
 
   before_build:
     - ps: gitversion /l console /output buildserver /updateAssemblyInfo

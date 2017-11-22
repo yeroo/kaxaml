@@ -264,9 +264,21 @@ namespace Kaxaml.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("<Page\r\n  xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"\r\n  xml" +
-            "ns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">\r\n  <Grid>  \r\n  \r\n  </Grid>\r" +
-            "\n</Page>")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Schemas\\wpfe.xsd")]
+        public string AgSchema {
+            get {
+                return ((string)(this["AgSchema"]));
+            }
+            set {
+                this["AgSchema"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<Page xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"\r\n      xm" +
+            "lns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">\r\n\t<Grid>\r\n\t\t\r\n\t</Grid>\r\n</" +
+            "Page>")]
         [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
         public string WPFDefaultXaml {
             get {
@@ -279,26 +291,14 @@ namespace Kaxaml.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("<Grid\r\n  xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" \r\n  xm" +
-            "lns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">\r\n\r\n</Grid>")]
+        [global::System.Configuration.DefaultSettingValueAttribute("<Grid xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"\r\n      xm" +
+            "lns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">\r\n      \r\n</Grid>")]
         public string AgDefaultXaml {
             get {
                 return ((string)(this["AgDefaultXaml"]));
             }
             set {
                 this["AgDefaultXaml"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Schemas\\wpfe.xsd")]
-        public string AgSchema {
-            get {
-                return ((string)(this["AgSchema"]));
-            }
-            set {
-                this["AgSchema"] = value;
             }
         }
     }

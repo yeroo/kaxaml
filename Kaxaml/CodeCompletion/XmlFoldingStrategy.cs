@@ -120,9 +120,9 @@ namespace Kaxaml.CodeCompletion
                 {
                     using (var reader = new XmlTextReader(stringReader))
                     {
+                        var stack = new Stack();
                         while (reader.Read())
                         {
-                            var stack = new Stack();
                             switch (reader.NodeType)
                             {
                                 case XmlNodeType.Element:
@@ -134,8 +134,11 @@ namespace Kaxaml.CodeCompletion
                                     break;
 
                                 case XmlNodeType.EndElement:
-                                    XmlFoldStart foldStart = (XmlFoldStart)stack.Pop();
-                                    CreateElementFold(document, foldMarkers, reader, foldStart);
+                                    if (stack.Count > 0)
+                                    {
+                                        XmlFoldStart foldStart = (XmlFoldStart)stack.Pop();
+                                        CreateElementFold(document, foldMarkers, reader, foldStart);
+                                    }
                                     break;
 
                                 case XmlNodeType.Comment:

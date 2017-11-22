@@ -49,12 +49,6 @@ namespace Kaxaml
             this.InputBindings.Add(new InputBinding(binding.Command, new KeyGesture(Key.T, ModifierKeys.Control, "Ctrl+T")));
             this.CommandBindings.Add(binding);
 
-            binding = new CommandBinding(NewAgTabCommand);
-            binding.Executed += new ExecutedRoutedEventHandler(this.NewAgTab_Executed);
-            binding.CanExecute += new CanExecuteRoutedEventHandler(this.NewAgTab_CanExecute);
-            this.InputBindings.Add(new InputBinding(binding.Command, new KeyGesture(Key.L, ModifierKeys.Control, "Ctrl+L")));
-            this.CommandBindings.Add(binding);
-
             binding = new CommandBinding(CloseTabCommand);
             binding.Executed += new ExecutedRoutedEventHandler(this.CloseTab_Executed);
             binding.CanExecute += new CanExecuteRoutedEventHandler(this.CloseTab_CanExecute);
@@ -292,32 +286,6 @@ namespace Kaxaml
         }
 
         void NewWPFTab_CanExecute(object sender, CanExecuteRoutedEventArgs args)
-        {
-            if (sender == this)
-            {
-                args.CanExecute = true;
-            }
-        }
-
-        #endregion
-
-        #region NewAgTabCommand
-
-        public readonly static RoutedUICommand NewAgTabCommand = new RoutedUICommand("New Silverlight Tab", "NewAgTabCommand", typeof(MainWindow));
-
-        void NewAgTab_Executed(object sender, ExecutedRoutedEventArgs args)
-        {
-            if (sender == this)
-            {
-                AgDocument doc = new AgDocument(System.IO.Directory.GetCurrentDirectory());
-                XamlDocuments.Add(doc);
-
-                this.DocumentsView.SelectedDocument = doc;
-
-            }
-        }
-
-        void NewAgTab_CanExecute(object sender, CanExecuteRoutedEventArgs args)
         {
             if (sender == this)
             {

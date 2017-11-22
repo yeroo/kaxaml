@@ -68,9 +68,6 @@
   &lt;/Grid&gt;
 &lt;/Page&gt;</Value>
     </Setting>
-    <Setting Name="EnablePseudoSilverlight" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
     <Setting Name="AgDefaultXaml" Type="System.String" Scope="User">
       <Value Profile="(Default)">&lt;Grid
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 

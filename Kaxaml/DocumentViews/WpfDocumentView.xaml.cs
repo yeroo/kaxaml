@@ -376,8 +376,6 @@ namespace Kaxaml.DocumentViews
                     string str = XamlDocument.SourceText;
 
                     // handle the in memory preparsing (this happens behind the scenes all in memory)
-                    str = DeSilverlight(str);
-
 
                     try
                     {
@@ -473,17 +471,7 @@ namespace Kaxaml.DocumentViews
             }
         }
 
-        private string DeSilverlight(string str)
-        {
-            if (Kaxaml.Properties.Settings.Default.EnablePseudoSilverlight)
-            {
-                str = str.Replace("http://schemas.microsoft.com/client/2007", "http://schemas.microsoft.com/winfx/2006/xaml/presentation");
-            }
-
-            return str;
-        }
-
-        private string PreParse(string str)
+      private string PreParse(string str)
         {
             while (str.Contains("?COLOR"))
             {

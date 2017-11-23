@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using ICSharpCode.TextEditor;
 using ICSharpCode.TextEditor.Gui.CompletionWindow;
-using PixelLab.Common;
+using Kaxaml.Core;
 
 namespace Kaxaml.CodeCompletion
 {

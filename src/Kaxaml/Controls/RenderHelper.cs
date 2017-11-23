@@ -1,9 +1,9 @@
 using System;
+using System.Diagnostics.Contracts;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using PixelLab.Contracts;
 
 namespace Kaxaml.Controls
 {

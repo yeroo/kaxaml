@@ -69,7 +69,6 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
@@ -77,11 +76,6 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="UIAutomationProvider" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="ReachFramework" />
-    <Reference Include="System.Printing" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.IdentityModel" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -125,13 +119,6 @@
     <EmbeddedResource Include="Images\page_lightning.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\KaxamlPlugins\KaxamlPlugins.csproj">
-      <Project>{F6B1B201-8293-4729-842C-0BB54F89FFA7}</Project>
-      <Name>KaxamlPlugins</Name>
-      <Private>False</Private>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\lightning.png" />
   </ItemGroup>
   <ItemGroup>
@@ -153,6 +140,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="FodyWeavers.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\KaxamlPlugins\KaxamlPlugins.csproj">
+      <Project>{f6b1b201-8293-4729-842c-0bb54f89ffa7}</Project>
+      <Name>KaxamlPlugins</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

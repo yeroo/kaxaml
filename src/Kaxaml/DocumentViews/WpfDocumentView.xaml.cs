@@ -9,10 +9,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Kaxaml.CodeCompletion;
 using Kaxaml.Controls;
+using Kaxaml.Core;
 using Kaxaml.Documents;
 using Kaxaml.Properties;
 using KaxamlPlugins;
-using PixelLab.Common;
 
 namespace Kaxaml.DocumentViews
 {

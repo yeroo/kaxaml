@@ -8,9 +8,9 @@ using System.Windows.Threading;
 using ICSharpCode.TextEditor;
 using ICSharpCode.TextEditor.Document;
 using Kaxaml.CodeCompletion;
+using Kaxaml.Core;
 using Kaxaml.Plugins.Default;
 using KaxamlPlugins;
-using PixelLab.Common;
 
 namespace Kaxaml.Controls
 {

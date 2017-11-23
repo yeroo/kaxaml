@@ -64,49 +64,17 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CommonServiceLocator, Version=2.0.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\CommonServiceLocator.2.0.1\lib\net45\CommonServiceLocator.dll</HintPath>
-    </Reference>
     <Reference Include="Costura, Version=1.6.2.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
       <HintPath>..\packages\Costura.Fody.1.6.2\lib\dotnet\Costura.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.4.1.0.0\lib\NET40\Microsoft.Expression.Interactions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Practices.Prism, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.4.1.0.0\lib\NET40\Microsoft.Practices.Prism.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Practices.Prism.Interactivity, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.4.1.0.0\lib\NET40\Microsoft.Practices.Prism.Interactivity.dll</HintPath>
-    </Reference>
-    <Reference Include="PixelLab.Common, Version=6.0.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\PixelLab.Common.6.0.2\lib\net40\PixelLab.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="PixelLab.Core, Version=6.0.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\PixelLab.Core.6.0.2\lib\net4\PixelLab.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="PixelLab.Wpf, Version=6.0.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\PixelLab.BOT.6.0.2\lib\net40\PixelLab.Wpf.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.4.1.0.0\lib\NET40\System.Windows.Interactivity.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="UIAutomationProvider" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="ReachFramework" />
-    <Reference Include="System.Printing" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.IdentityModel" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="ColorPickerPlugin.xaml">
@@ -146,10 +114,13 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Kaxaml.Core\Kaxaml.Core.csproj">
+      <Project>{513f3abf-0b44-4742-8142-0a27fa19353b}</Project>
+      <Name>Kaxaml.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\KaxamlPlugins\KaxamlPlugins.csproj">
-      <Project>{F6B1B201-8293-4729-842C-0BB54F89FFA7}</Project>
+      <Project>{f6b1b201-8293-4729-842c-0bb54f89ffa7}</Project>
       <Name>KaxamlPlugins</Name>
-      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

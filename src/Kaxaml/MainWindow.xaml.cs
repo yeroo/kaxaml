@@ -6,11 +6,11 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Kaxaml.Core;
 using Kaxaml.Documents;
 using Kaxaml.Plugins.Default;
 using KaxamlPlugins;
 using Microsoft.Win32;
-using PixelLab.Common;
 
 namespace Kaxaml
 {

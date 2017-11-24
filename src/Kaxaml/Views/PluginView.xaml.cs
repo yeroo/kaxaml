@@ -73,12 +73,12 @@ namespace Kaxaml.Views
             // load each of the plugins in the directory
             foreach (FileInfo f in d.GetFiles("*.dll"))
             {
-                Assembly asm = Assembly.LoadFile(f.FullName);
+                var bytes = File.ReadAllBytes(f.FullName);
+                Assembly asm = Assembly.Load(bytes);
                 Type[] types = asm.GetExportedTypes();
                 foreach (Type typ in types)
                 {
                     var a = typ.GetCustomAttributes(typeof(PluginAttribute), false).Cast<PluginAttribute>().SingleOrDefault();
-
                     if (a != null && typeof(UserControl).IsAssignableFrom(typ))
                     {
                         Plugin p = new Plugin()

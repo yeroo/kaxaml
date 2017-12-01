@@ -30,6 +30,17 @@ namespace Kaxaml.Views
 
         private void LoadPlugins()
         {
+            // References
+            Plugin references = new Plugin();
+            references.Root = new References();
+            references.Name = "References";
+            references.Description = "Add references to Kaxaml";
+            references.Key = Key.N;
+            references.ModifierKeys = ModifierKeys.Control;
+            //references.Icon = LoadIcon(references.GetType(), "Images\\emb_tag.png");
+            Plugins.Add(references);
+            (App.Current as App).References = references.Root as References;
+
             // load the snippets plugin
             Plugin snippets = new Plugin();
             snippets.Root = new Snippets();

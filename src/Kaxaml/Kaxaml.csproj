@@ -74,6 +74,9 @@
       <HintPath>..\packages\ICSharpCode.TextEditor.3.2.1.6466\lib\Net20\ICSharpCode.TextEditor.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="JetBrains.Annotations, Version=11.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.11.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
+    </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />
@@ -157,6 +160,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Plugins\References.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Plugins\Settings.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -290,6 +297,9 @@
     <Compile Include="Plugins\FontChooser.xaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>FontChooser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Plugins\References.xaml.cs">
+      <DependentUpon>References.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plugins\Settings.xaml.cs">
       <SubType>Code</SubType>

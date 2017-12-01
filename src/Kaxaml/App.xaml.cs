@@ -10,6 +10,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
+using System.Reflection;
+using Kaxaml.Plugins;
 using Kaxaml.Plugins.Default;
 
 namespace Kaxaml
@@ -32,6 +35,8 @@ namespace Kaxaml
             set { _Snippets = value; }
         }
 
+        public References References { get; set; }
+
         void app_Startup(object sender, StartupEventArgs e)
         {
             //if (e.Args.Length > 0)
@@ -40,6 +45,44 @@ namespace Kaxaml
             //}
 
             _startupArgs = e.Args;
+
+            var executingAssembly = Assembly.GetExecutingAssembly();
+            var executingAssemblyName = executingAssembly.GetName().Name;
+            AppDomain.CurrentDomain.AssemblyResolve += (s, args) =>
+            {
+                if (References == null) return null;
+                var assemblyName = new AssemblyName(args.Name).Name + ".dll";
+
+                var reference = References.ReferencesList.FirstOrDefault(r => r.Name == assemblyName);
+                if (reference != null)
+                {
+//                    var bytes = File.ReadAllBytes(assemblyName);
+//                    Assembly asm = Assembly.Load(bytes);
+//                    var streams = asm.GetManifestResourceNames();
+//                    return asm;
+//                    using (var stream = executingAssembly.GetManifestResourceStream(reference.FullName))
+//                    {
+//                        if (stream != null)
+//                        {
+//                            var assemblyData = new Byte[stream.Length];
+//                            stream.Read(assemblyData, 0, assemblyData.Length);
+//                            return Assembly.Load(assemblyData);
+//                        }
+//                    }
+                }
+
+                //                var resourceName = executingAssemblyName + ".DllsAsResource." + new AssemblyName(args.Name).Name + ".dll";
+                //                using (var stream = executingAssembly.GetManifestResourceStream(resourceName))
+                //                {
+                //                    if (stream != null)
+                //                    {
+                //                        var assemblyData = new Byte[stream.Length];
+                //                        stream.Read(assemblyData, 0, assemblyData.Length);
+                //                        return Assembly.Load(assemblyData);
+                //                    }
+                //                }
+                return null;
+            };
         }
 
 

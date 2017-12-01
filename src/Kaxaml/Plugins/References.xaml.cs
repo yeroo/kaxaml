@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -98,7 +99,27 @@ namespace Kaxaml.Plugins
 
             var bytes = File.ReadAllBytes(this.FullName);
             Assembly asm = Assembly.Load(bytes);
-            this.AssemblyFileVersion = asm.GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
+
+
+            var assemblyVersionAttribute = asm.GetCustomAttribute<AssemblyVersionAttribute>();
+            var assemblyFileVersionAttribute = asm.GetCustomAttribute<AssemblyFileVersionAttribute>();
+            var assemblyInformationalVersionAttribute = asm.GetCustomAttribute<AssemblyInformationalVersionAttribute>();
+            if (assemblyVersionAttribute != null)
+            {
+                this.AssemblyFileVersion = assemblyVersionAttribute.Version;
+            }
+            else if (assemblyFileVersionAttribute != null)
+            {
+                this.AssemblyFileVersion = assemblyFileVersionAttribute.Version;
+            }
+            else if (assemblyInformationalVersionAttribute != null)
+            {
+                this.AssemblyFileVersion = assemblyInformationalVersionAttribute.InformationalVersion;
+            }
+            else
+            {
+                this.AssemblyFileVersion = FileVersionInfo.GetVersionInfo(this.FullName).FileVersion;
+            }
         }
 
         public string Name { get; }

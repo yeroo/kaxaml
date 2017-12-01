@@ -390,11 +390,10 @@ namespace Kaxaml.DocumentViews
                                 ms.Seek(0, SeekOrigin.Begin);
 
                                 ParserContext pc = new ParserContext();
-                                pc.BaseUri = new Uri(XamlDocument.Folder != null
-                                    ? XamlDocument.Folder + "/"
-                                    : System.Environment.CurrentDirectory + "/");
-                                //pc.BaseUri = new Uri(XamlDocument.Folder + "/");
-                                //pc.BaseUri = new Uri(System.Environment.CurrentDirectory + "/");
+                                pc.BaseUri = new Uri(XamlDocument.FullPath, UriKind.RelativeOrAbsolute);
+                                //                                pc.BaseUri = new Uri(XamlDocument.Folder != null
+                                //                                    ? XamlDocument.Folder + "/"
+                                //                                    : System.Environment.CurrentDirectory + "/");
 
                                 ContentArea.JournalOwnership = System.Windows.Navigation.JournalOwnership.UsesParentJournal;
                                 content = XamlReader.Load(ms, pc);

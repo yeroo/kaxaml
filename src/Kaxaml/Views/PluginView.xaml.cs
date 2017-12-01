@@ -1,13 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using JetBrains.Annotations;
 using Kaxaml.Core;
 using Kaxaml.Plugins;
 using Kaxaml.Plugins.Default;
@@ -17,9 +20,8 @@ namespace Kaxaml.Views
     /// <summary>
     /// Interaction logic for PuginView.xaml
     /// </summary>
-    public partial class PluginView : System.Windows.Controls.UserControl
+    public partial class PluginView : System.Windows.Controls.UserControl, INotifyPropertyChanged
     {
-
         public const string PluginSubDir = "\\plugins";
 
         public PluginView()
@@ -39,7 +41,7 @@ namespace Kaxaml.Views
             references.ModifierKeys = ModifierKeys.Control;
             //references.Icon = LoadIcon(references.GetType(), "Images\\emb_tag.png");
             Plugins.Add(references);
-            (App.Current as App).References = references.Root as References;
+            this.ReferencesPlugin = references;
 
             // load the snippets plugin
             Plugin snippets = new Plugin();
@@ -94,7 +96,7 @@ namespace Kaxaml.Views
                     {
                         Plugin p = new Plugin()
                         {
-                            Root = (UserControl)Activator.CreateInstance(typ),
+                            Root = (UserControl) Activator.CreateInstance(typ),
                             Name = a.Name,
                             Description = a.Description,
                             Key = a.Key,
@@ -169,9 +171,10 @@ namespace Kaxaml.Views
 
         public List<Plugin> Plugins
         {
-            get { return (List<Plugin>)GetValue(PluginsProperty); }
+            get { return (List<Plugin>) GetValue(PluginsProperty); }
             set { SetValue(PluginsProperty, value); }
         }
+
         public static readonly DependencyProperty PluginsProperty =
             DependencyProperty.Register("Plugins", typeof(List<Plugin>), typeof(PluginView), new UIPropertyMetadata(new List<Plugin>()));
 
@@ -183,7 +186,7 @@ namespace Kaxaml.Views
                 {
                     try
                     {
-                        TabItem t = (TabItem)((FrameworkElement)p.Root).Parent;
+                        TabItem t = (TabItem) ((FrameworkElement) p.Root).Parent;
                         t.IsSelected = true;
                         t.Focus();
 
@@ -206,22 +209,37 @@ namespace Kaxaml.Views
         }
 
         Plugin _findPlugin = null;
+
         internal Plugin GetFindPlugin()
         {
             return _findPlugin;
         }
 
-        public Plugin SelectedPlugin
+        private Plugin _referencesPlugin;
+
+        public Plugin ReferencesPlugin
         {
-            get
-            {
-                return (Plugin)PluginTabControl.SelectedItem;
-            }
+            get { return _referencesPlugin; }
             set
             {
-                PluginTabControl.SelectedItem = (Plugin)value;
+                if (Equals(value, _referencesPlugin)) return;
+                _referencesPlugin = value;
+                OnPropertyChanged();
             }
         }
 
+        public Plugin SelectedPlugin
+        {
+            get { return (Plugin) PluginTabControl.SelectedItem; }
+            set { PluginTabControl.SelectedItem = (Plugin) value; }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

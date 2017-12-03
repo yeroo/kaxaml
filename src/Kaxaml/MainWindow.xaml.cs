@@ -462,8 +462,8 @@ namespace Kaxaml
             {
                 _OpenReferencesDialog = new OpenFileDialog();
                 _OpenReferencesDialog.AddExtension = true;
-                _OpenReferencesDialog.DefaultExt = ".xaml";
-                _OpenReferencesDialog.Filter = "Component files|*.dll|All files|*.*";
+                _OpenReferencesDialog.DefaultExt = ".dll";
+                _OpenReferencesDialog.Filter = "Component files (*.dll;*.exe)|*.dll;*.exe|All files (*.*)|*.*";
                 _OpenReferencesDialog.Multiselect = true;
                 _OpenReferencesDialog.CheckFileExists = true;
                 _OpenReferencesDialog.CheckPathExists = true;
@@ -476,6 +476,8 @@ namespace Kaxaml
                 {
                     references.AddNewReferences(s);
                 }
+
+                this.PluginView.SelectedPlugin = this.PluginView.ReferencesPlugin;
 
                 return true;
             }

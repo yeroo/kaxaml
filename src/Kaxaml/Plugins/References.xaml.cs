@@ -97,13 +97,21 @@ namespace Kaxaml.Plugins
             this.Name = fileInfo.Name;
             this.FullName = fileInfo.FullName;
 
-            var bytes = File.ReadAllBytes(this.FullName);
-            Assembly asm = Assembly.Load(bytes);
+            Assembly asm = null;
+            try
+            {
+                var bytes = File.ReadAllBytes(this.FullName);
+                asm = Assembly.Load(bytes);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                asm = null;
+            }
 
-
-            var assemblyVersionAttribute = asm.GetCustomAttribute<AssemblyVersionAttribute>();
-            var assemblyFileVersionAttribute = asm.GetCustomAttribute<AssemblyFileVersionAttribute>();
-            var assemblyInformationalVersionAttribute = asm.GetCustomAttribute<AssemblyInformationalVersionAttribute>();
+            var assemblyVersionAttribute = asm?.GetCustomAttribute<AssemblyVersionAttribute>();
+            var assemblyFileVersionAttribute = asm?.GetCustomAttribute<AssemblyFileVersionAttribute>();
+            var assemblyInformationalVersionAttribute = asm?.GetCustomAttribute<AssemblyInformationalVersionAttribute>();
             if (assemblyVersionAttribute != null)
             {
                 this.AssemblyFileVersion = assemblyVersionAttribute.Version;

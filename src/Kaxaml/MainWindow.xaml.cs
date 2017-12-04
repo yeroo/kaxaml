@@ -478,6 +478,7 @@ namespace Kaxaml
                 }
 
                 this.PluginView.SelectedPlugin = this.PluginView.ReferencesPlugin;
+                this.DocumentsView?.SelectedView?.Parse();
 
                 return true;
             }

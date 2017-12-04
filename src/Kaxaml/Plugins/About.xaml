@@ -324,12 +324,12 @@
         <LineBreak/>
         <Run Text="© 2009 Robby Ingebretsen"/>
         <LineBreak/>
-        <Hyperlink Foreground="#FFFFFFFF">
-            <Run Text="www.kaxaml.com"/>
+        <Hyperlink Foreground="#FFFFFFFF" NavigateUri="https://github.com/punker76/kaxaml">
+            <Run Text="Kaxaml @GitHub"/>
         </Hyperlink>
     </TextBlock>
 
-    <TextBlock Canvas.Left="20" Canvas.Top="110" TextWrapping="Wrap" Width="220" Foreground="#C0C0C0">
+    <TextBlock Canvas.Left="20" Canvas.Top="130" TextWrapping="Wrap" Width="220" Foreground="#C0C0C0">
     <TextBlock.Resources>
       <Style TargetType="{x:Type Hyperlink}">
         <Setter Property="Foreground" Value="White" />
@@ -341,12 +341,8 @@
       at your own risk.
       <LineBreak />
       <LineBreak />
-      The most current version can always be obtained at <Hyperlink TextDecorations="None" Foreground="White" NavigateUri="http://www.kaxaml.com">www.kaxaml.com</Hyperlink> (notice that Kaxaml is spelled with an
-      'x' and not a 'z').  As you come accross bugs, please promptly send them to <Hyperlink Foreground="White" TextDecorations="None" NavigateUri="mailto:bugs@kaxaml.com">bugs@kaxaml.com</Hyperlink>.
-      <LineBreak />
-      <LineBreak />
-      If you're interested in XAML (in either the WPF or Silverlight variety) and/or design, then you might also be interested in
-      the goings on at <Hyperlink TextDecorations="None" Foreground="White" NavigateUri="http://www.nerdplusart.com">www.nerdplusart.com</Hyperlink>.  That's my blog.
+      The most current version can always be obtained at <Hyperlink TextDecorations="None" Foreground="White" NavigateUri="https://github.com/punker76/kaxaml/releases">github.com/punker76/kaxaml/releases</Hyperlink> (notice that Kaxaml is spelled with an
+      'x' and not a 'z').  As you come accross bugs, please promptly create an issue at <Hyperlink Foreground="White" TextDecorations="None" NavigateUri="https://github.com/punker76/kaxaml/issues">github.com/punker76/kaxaml/issues</Hyperlink>.
       <LineBreak />
       <LineBreak />
       A huge thanks to Matt Ward who authored the text editor used in Kaxaml as part of the <Hyperlink NavigateUri="http://www.sharpdevelop.com/OpenSource/SD/">SharpDevelop</Hyperlink> project.  Also, thanks to <Hyperlink NavigateUri="http://www.famfamfam.com/">famfamfam</Hyperlink>, producer of the (very cool and very free) <Hyperlink NavigateUri="http://www.famfamfam.com/archive/silk-icons-thats-your-lot/">Silk Icon Set</Hyperlink> that I used.  

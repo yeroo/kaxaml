@@ -39,7 +39,7 @@ namespace Kaxaml.Views
             references.Description = "Add references to Kaxaml";
             references.Key = Key.N;
             references.ModifierKeys = ModifierKeys.Control;
-            //references.Icon = LoadIcon(references.GetType(), "Images\\emb_tag.png");
+            references.Icon = LoadIcon(references.GetType(), "Images\\package_link.png");
             Plugins.Add(references);
             this.ReferencesPlugin = references;
 

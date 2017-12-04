@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.Versioning;
 using System.Windows.Controls;
 using JetBrains.Annotations;
 using Kaxaml.Core;
@@ -128,6 +129,9 @@ namespace Kaxaml.Plugins
             {
                 this.AssemblyFileVersion = FileVersionInfo.GetVersionInfo(this.FullName).FileVersion;
             }
+
+            var targetFramework = asm?.GetCustomAttribute<TargetFrameworkAttribute>();
+            this.TargetFramework = targetFramework?.FrameworkDisplayName;
         }
 
         public string Name { get; }
@@ -135,6 +139,8 @@ namespace Kaxaml.Plugins
         public string FullName { get; }
 
         public string AssemblyFileVersion { get; }
+
+        public string TargetFramework { get; }
 
         public override bool Equals(object obj)
         {

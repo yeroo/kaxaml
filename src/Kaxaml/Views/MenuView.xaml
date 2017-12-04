@@ -24,7 +24,6 @@
       <MenuItem Command="k:MainWindow.SaveAsCommand" InputGestureText="Ctrl+Alt+S" />
       <Separator />
       <MenuItem Command="k:MainWindow.AddReferenceCommand" />
-      <!--Separator / -->
       <Separator />
       <MenuItem Command="k:MainWindow.ExitCommand"  />
     </MenuItem>

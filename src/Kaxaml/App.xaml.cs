@@ -1,11 +1,5 @@
 using System;
 using System.Windows;
-using System.Data;
-using System.Xml;
-using System.Configuration;
-using System.Collections;
-using System.Text.RegularExpressions;
-using Kaxaml.Properties;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.ComponentModel;
@@ -41,7 +35,6 @@ namespace Kaxaml
 
             _startupArgs = e.Args;
         }
-
 
         [PreserveSig()]
         [DllImport("kernel32.dll", SetLastError = true)]

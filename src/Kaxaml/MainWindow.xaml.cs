@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Kaxaml.Core;
 using Kaxaml.Documents;
+using Kaxaml.Plugins;
 using Kaxaml.Plugins.Default;
 using KaxamlPlugins;
 using Microsoft.Win32;
@@ -65,6 +66,12 @@ namespace Kaxaml
             binding.Executed += new ExecutedRoutedEventHandler(this.SaveAs_Executed);
             binding.CanExecute += new CanExecuteRoutedEventHandler(this.SaveAs_CanExecute);
             this.InputBindings.Add(new InputBinding(binding.Command, new KeyGesture(Key.S, ModifierKeys.Control | ModifierKeys.Alt, "Ctrl+Alt+S")));
+            this.CommandBindings.Add(binding);
+
+            binding = new CommandBinding(AddReferenceCommand);
+            binding.Executed += new ExecutedRoutedEventHandler(this.AddReference_Executed);
+            binding.CanExecute += new CanExecuteRoutedEventHandler(this.AddReference_CanExecute);
+            this.InputBindings.Add(new InputBinding(binding.Command, new KeyGesture(Key.R, ModifierKeys.Control, "Ctrl+R")));
             this.CommandBindings.Add(binding);
 
             binding = new CommandBinding(OpenCommand);
@@ -409,6 +416,73 @@ namespace Kaxaml
                     args.CanExecute = false;
                 }
             }
+        }
+
+        #endregion
+
+        #region AddReferenceCommand
+
+        public readonly static RoutedUICommand AddReferenceCommand = new RoutedUICommand("Add Reference... ", "AddReferenceCommand", typeof(MainWindow));
+
+        void AddReference_Executed(object sender, ExecutedRoutedEventArgs args)
+        {
+            if (sender == this)
+            {
+                if (this.DocumentsView.SelectedView != null)
+                {
+                    XamlDocument document = this.DocumentsView.SelectedView.XamlDocument;
+                    this.OpenReferencesDialog();
+                }
+            }
+        }
+
+        void AddReference_CanExecute(object sender, CanExecuteRoutedEventArgs args)
+        {
+            if (sender == this)
+            {
+                if (this.DocumentsView.SelectedView != null && this.PluginView.ReferencesPlugin?.Root != null)
+                {
+                    args.CanExecute = true;
+                }
+                else
+                {
+                    args.CanExecute = false;
+                }
+            }
+        }
+
+        OpenFileDialog _OpenReferencesDialog;
+
+        public bool OpenReferencesDialog()
+        {
+            References references = this.PluginView.ReferencesPlugin?.Root as References;
+            if (references == null) return false;
+
+            if (_OpenReferencesDialog == null)
+            {
+                _OpenReferencesDialog = new OpenFileDialog();
+                _OpenReferencesDialog.AddExtension = true;
+                _OpenReferencesDialog.DefaultExt = ".dll";
+                _OpenReferencesDialog.Filter = "Component files (*.dll;*.exe)|*.dll;*.exe|All files (*.*)|*.*";
+                _OpenReferencesDialog.Multiselect = true;
+                _OpenReferencesDialog.CheckFileExists = true;
+                _OpenReferencesDialog.CheckPathExists = true;
+                _OpenReferencesDialog.RestoreDirectory = true;
+            }
+
+            if ((bool)_OpenReferencesDialog.ShowDialog())
+            {
+                foreach (string s in _OpenReferencesDialog.FileNames)
+                {
+                    references.AddNewReferences(s);
+                }
+
+                this.PluginView.SelectedPlugin = this.PluginView.ReferencesPlugin;
+
+                return true;
+            }
+
+            return false;
         }
 
         #endregion

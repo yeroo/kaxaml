@@ -361,7 +361,7 @@ namespace Kaxaml.DocumentViews
         }
 
 
-        private void ReportError(Exception e)
+        public void ReportError(Exception e)
         {
             IsValidXaml = false;
 

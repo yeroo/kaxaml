@@ -35,6 +35,8 @@ namespace Kaxaml.DocumentViews
         void Initialize();
         void OnActivate();
 
+        void ReportError(Exception e);
+
         // GotoLine
         // Find?
 

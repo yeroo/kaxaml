@@ -435,7 +435,6 @@
     <None Include="Assets\shadow.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Reference Assemblies\ICSharpCode.TextEditor.dll" />
     <None Include="Schemas\wpfe.xsd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

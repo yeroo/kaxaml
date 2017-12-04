@@ -31,31 +31,25 @@ namespace Kaxaml.Plugins.Controls
         public static readonly DependencyProperty DataProperty =
             DependencyProperty.Register("Data", typeof(object), typeof(TextDragger), new UIPropertyMetadata(null));
 
-        bool IsClipboardSet = false;
-
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
-            if (e.ClickCount == 1)
+            var text = !string.IsNullOrEmpty(Text) ? Text : (Data != null ? Data.ToString() : null);
+
+            if (!string.IsNullOrEmpty(text))
             {
-                if (!String.IsNullOrEmpty(Text))
+                if (e.ClickCount == 1)
                 {
-                    Clipboard.SetText(Text);
-                    IsClipboardSet = true;
+                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        Clipboard.SetDataObject(text);
+                    }));
                 }
-                else if (Data != null)
+                else if (e.ClickCount == 2)
                 {
-                    Clipboard.SetText(Data.ToString());
-                    IsClipboardSet = true;
+                    KaxamlInfo.Editor.InsertStringAtCaret(text);
                 }
             }
-            else if (e.ClickCount == 2)
-            {
-                if (IsClipboardSet)
-                {
-                    KaxamlInfo.Editor.InsertStringAtCaret(Text);
-                    IsClipboardSet = false;
-                }
-            }
+
             base.OnMouseDown(e);
         }
 

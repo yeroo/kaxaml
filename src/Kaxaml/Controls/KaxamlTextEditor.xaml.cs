@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -142,7 +143,7 @@ namespace Kaxaml.Controls
             if (obj is KaxamlTextEditor)
             {
                 KaxamlTextEditor owner = (KaxamlTextEditor)obj;
-                owner.TextEditor.ActiveTextAreaControl.Caret.Position = new System.Drawing.Point((int)args.NewValue, owner.TextEditor.ActiveTextAreaControl.Caret.Position.Y);
+                owner.TextEditor.ActiveTextAreaControl.Caret.Position = new TextLocation((int)args.NewValue, owner.TextEditor.ActiveTextAreaControl.Caret.Position.Y);
             }
         }
 
@@ -673,7 +674,7 @@ namespace Kaxaml.Controls
                     break;
             }
             int currentLineNr = TextEditor.ActiveTextAreaControl.TextArea.Caret.Line;
-            int delta = TextEditor.Document.FormattingStrategy.FormatLine(TextEditor.ActiveTextAreaControl.TextArea, currentLineNr, TextEditor.Document.PositionToOffset(TextEditor.ActiveTextAreaControl.TextArea.Caret.Position), ch);
+            TextEditor.Document.FormattingStrategy.FormatLine(TextEditor.ActiveTextAreaControl.TextArea, currentLineNr, TextEditor.Document.PositionToOffset(TextEditor.ActiveTextAreaControl.TextArea.Caret.Position), ch);
 
             TextEditor.ActiveTextAreaControl.TextArea.MotherTextEditorControl.EndUpdate();
         }
@@ -983,13 +984,19 @@ namespace Kaxaml.Controls
 
                 Window mainWindow = System.Windows.Application.Current.MainWindow;
 
-                double borderX = 0; // mainWindow.ActualWidth - (mainWindow.Content as FrameworkElement).ActualWidth;
-                double borderY = mainWindow.ActualHeight - (mainWindow.Content as FrameworkElement).ActualHeight;
+                //double borderX = 0; // mainWindow.ActualWidth - (mainWindow.Content as FrameworkElement).ActualWidth;
+                //double borderY = mainWindow.ActualHeight - (mainWindow.Content as FrameworkElement).ActualHeight;
 
                 System.Drawing.Point editorPoint = TextEditor.PointToScreen(new System.Drawing.Point(0, 0));
                 System.Drawing.Point caretPoint = TextEditor.ActiveTextAreaControl.Caret.ScreenPosition;
 
-                popup = CodeCompletionPopup.Show(items, new Point(editorPoint.X + caretPoint.X + borderX, editorPoint.Y + caretPoint.Y + (FontSize * 1.3) + 3));
+                float sizeInPixels;
+                using (var g = TextEditor.ActiveTextAreaControl.TextArea.CreateGraphics())
+                {
+                    sizeInPixels = TextEditor.Font.SizeInPoints / 72 * g.DpiY;
+                }
+
+                popup = CodeCompletionPopup.Show(items, new Point(editorPoint.X + caretPoint.X, editorPoint.Y + caretPoint.Y + sizeInPixels + 4));
                 popup.ResultProvided += w_ResultProvided;
             }
         }
@@ -1140,8 +1147,8 @@ namespace Kaxaml.Controls
         {
             try
             {
-                System.Drawing.Point from = TextEditor.Document.OffsetToPosition(fromOffset);
-                System.Drawing.Point to = TextEditor.Document.OffsetToPosition(toOffset);
+                TextLocation from = TextEditor.Document.OffsetToPosition(fromOffset);
+                TextLocation to = TextEditor.Document.OffsetToPosition(toOffset);
 
                 if (suppressSelectionChangedEvent)
                 {
@@ -1168,11 +1175,11 @@ namespace Kaxaml.Controls
 
             try
             {
-                System.Drawing.Point startPoint = new System.Drawing.Point(0, lineNumber);
-                System.Drawing.Point endPoint = new System.Drawing.Point(0, lineNumber + 1);
+                TextLocation startPoint = new TextLocation(0, lineNumber);
+                TextLocation endPoint = new TextLocation(0, lineNumber + 1);
 
                 TextEditor.ActiveTextAreaControl.SelectionManager.SetSelection(startPoint, endPoint);
-                TextEditor.ActiveTextAreaControl.Caret.Position = new System.Drawing.Point(0, lineNumber);
+                TextEditor.ActiveTextAreaControl.Caret.Position = new TextLocation(0, lineNumber);
             }
             catch (Exception ex)
             {

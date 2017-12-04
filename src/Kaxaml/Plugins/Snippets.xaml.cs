@@ -474,7 +474,7 @@ namespace Kaxaml.Plugins.Default
 
     }
 
-    public class SnippetCompletionData : ICompletionData
+    public class SnippetCompletionData : ICompletionData, IComparable
     {
 
         #region Constructors

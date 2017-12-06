@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2009
+VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kaxaml", "Kaxaml\Kaxaml.csproj", "{FF5B3F61-822A-4154-9215-43D4A835EDF4}"
 EndProject
@@ -12,9 +12,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnapshotPlugin", "SnapshotPlugin\SnapshotPlugin.csproj", "{44B5D1D9-2087-4E43-BCED-A7CD8B00BF22}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamlScrubberPlugin", "XamlScrubberPlugin\XamlScrubberPlugin.csproj", "{F313AD16-137D-4DF0-9A3B-027900F997A9}"
-	ProjectSection(ProjectDependencies) = postProject
-		{FF5B3F61-822A-4154-9215-43D4A835EDF4} = {FF5B3F61-822A-4154-9215-43D4A835EDF4}
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DDDDF61A-6B22-4EDE-9BAF-27DC67312098}"
 	ProjectSection(SolutionItems) = preProject

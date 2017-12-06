@@ -1,13 +1,19 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.Versioning;
+using System.Windows;
+using System.Windows.Baml2006;
 using System.Windows.Controls;
+using System.Windows.Markup;
 using JetBrains.Annotations;
 using Kaxaml.Core;
 using KaxamlPlugins;
@@ -132,6 +138,57 @@ namespace Kaxaml.Plugins
 
             var targetFramework = asm?.GetCustomAttribute<TargetFrameworkAttribute>();
             this.TargetFramework = targetFramework?.FrameworkDisplayName;
+
+            var resourceDictionaries = GetResourceDictionary(asm);
+        }
+
+        public IEnumerable<ResourceDictionary> GetResourceDictionary(Assembly assembly)
+        {
+            if (assembly == null)
+            {
+                return Enumerable.Empty<ResourceDictionary>();
+            }
+
+            var assemblyName = assembly.GetName().Name;
+            var stream = assembly.GetManifestResourceStream(assemblyName + ".g.resources");
+            if (stream == null)
+            {
+                return Enumerable.Empty<ResourceDictionary>();
+            }
+
+            var resourceDictionaries = new List<ResourceDictionary>();
+
+            using (var reader = new ResourceReader(stream))
+            {
+                foreach (var readStream in reader.OfType<DictionaryEntry>().Select(entry => entry.Value).OfType<Stream>())
+                {
+                    var bamlReader = new Baml2006Reader(readStream);
+                    try
+                    {
+                        var resDict = XamlReader.Load(bamlReader) as ResourceDictionary;
+                        if (resDict != null)
+                        {
+                            if (resDict.Source != null && resDict.Source.OriginalString.Contains(assemblyName))
+                            {
+                                resourceDictionaries.Add(resDict);
+                            }
+                            foreach (var mergedDictionary in resDict.MergedDictionaries)
+                            {
+                                if (mergedDictionary.Source != null && mergedDictionary.Source.OriginalString.Contains(assemblyName))
+                                {
+                                    resourceDictionaries.Add(mergedDictionary);
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
+                }
+            }
+
+            return resourceDictionaries;
         }
 
         public string Name { get; }

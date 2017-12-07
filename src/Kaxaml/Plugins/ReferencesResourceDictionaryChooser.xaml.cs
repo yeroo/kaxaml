@@ -1,5 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using JetBrains.Annotations;
@@ -34,23 +37,19 @@ namespace Kaxaml.Plugins
             InitializeComponent();
         }
 
-        private static ReferencesResourceDictionaryChooser instance = null;
-        private IEnumerable _resourceDictionaries;
-
         public static ReferencesResourceDictionaryChooser Show(Reference reference, Window owner)
         {
-            if (instance == null)
-            {
-                instance = new ReferencesResourceDictionaryChooser();
-            }
+            var instance = new ReferencesResourceDictionaryChooser();
 
             instance.Owner = owner;
             instance.Reference = reference;
-            instance.ResourceDictionaries = reference.GetResourceDictionary(reference.Assembly);
-            instance.Show();
+            instance.ResourceDictionaries = new ObservableCollection<ReferenceResourceDictionary>(reference.GetResourceDictionary(reference.Assembly).OrderBy(r => r.DictionaryEntryKey, StringComparer.InvariantCultureIgnoreCase));
+            instance.SelectedResourceDictionaries = new ObservableCollection<ReferenceResourceDictionary>();
 
             return instance;
         }
+
+        private IEnumerable _resourceDictionaries;
 
         public IEnumerable ResourceDictionaries
         {
@@ -59,6 +58,19 @@ namespace Kaxaml.Plugins
             {
                 if (Equals(value, _resourceDictionaries)) return;
                 _resourceDictionaries = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private IEnumerable _selectedResourceDictionaries;
+
+        public IEnumerable SelectedResourceDictionaries
+        {
+            get { return _selectedResourceDictionaries; }
+            set
+            {
+                if (Equals(value, _selectedResourceDictionaries)) return;
+                _selectedResourceDictionaries = value;
                 OnPropertyChanged();
             }
         }

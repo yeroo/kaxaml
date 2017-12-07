@@ -23,17 +23,20 @@
             </CollectionViewSource>
 
             <DataTemplate DataType="{x:Type local:Reference}">
-                <TextBlock Margin="2"
-                           VerticalAlignment="Center"
-                           TextWrapping="Wrap">
-                    <TextBlock.Text>
-                        <MultiBinding StringFormat="{}{0} ({1}) {2}">
-                            <Binding Path="Name" />
-                            <Binding Path="AssemblyFileVersion" />
-                            <Binding Path="TargetFramework" />
-                        </MultiBinding>
-                    </TextBlock.Text>
-                </TextBlock>
+                <StackPanel Orientation="Vertical" Margin="1" VerticalAlignment="Center">
+                    <TextBlock Margin="1"
+                               TextWrapping="Wrap">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0} ({1})">
+                                <Binding Path="Name" />
+                                <Binding Path="AssemblyFileVersion" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                    <TextBlock Margin="1"
+                               Text="{Binding TargetFramework}"
+                               TextWrapping="Wrap" />
+                </StackPanel>
             </DataTemplate>
 
             <ContextMenu x:Key="ReferenceContextMenu">

@@ -3,6 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:plugins="clr-namespace:Kaxaml.Plugins"
+        xmlns:dd="urn:gong-wpf-dragdrop"
         x:Name="This"
         Title="ResourceDictionary Chooser"
         Width="600"
@@ -16,9 +18,9 @@
 
     <Window.Resources>
         <ResourceDictionary>
-<!--            <ResourceDictionary.MergedDictionaries>-->
-<!--                <ResourceDictionary Source="/Resources/PluginTheme.xaml" />-->
-<!--            </ResourceDictionary.MergedDictionaries>-->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/PluginTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
             <!--  SimpleStyles: ListBox  -->
 
@@ -62,6 +64,9 @@
             <!--  SimpleStyles: ListBoxItem  -->
 
             <Style TargetType="{x:Type ListBoxItem}">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                <Setter Property="Foreground" Value="#C8C8C8" />
                 <Setter Property="HorizontalAlignment" Value="Stretch" />
                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                 <Setter Property="OverridesDefaultStyle" Value="True" />
@@ -71,12 +76,13 @@
                         <ControlTemplate TargetType="{x:Type ListBoxItem}">
                             <Border Name="Border"
                                     Padding="2"
+                                    Background="{TemplateBinding Background}"
                                     SnapsToDevicePixels="True">
                                 <ContentPresenter />
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsSelected" Value="True">
-                                    <Setter TargetName="Border" Property="Background" Value="#DDDDDD" />
+                                    <Setter Property="Background" Value="#505050" />
                                 </Trigger>
                                 <Trigger Property="IsEnabled" Value="False">
                                     <Setter Property="Foreground" Value="#888888" />
@@ -86,6 +92,12 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+
+            <DataTemplate DataType="{x:Type plugins:ReferenceResourceDictionary}">
+                <Grid>
+                    <TextBlock Margin="2" Text="{Binding DictionaryEntryKey}" />
+                </Grid>
+            </DataTemplate>
 
         </ResourceDictionary>
     </Window.Resources>
@@ -115,17 +127,18 @@
 
         <ListBox Grid.Row="1"
                  Grid.Column="0"
-                 DisplayMemberPath="Source.OriginalString"
-                 ItemsSource="{Binding ElementName=This, Path=ResourceDictionaries}">
-<!--            <ListBox.ItemTemplate>-->
-<!--                <DataTemplate DataType="{x:Type ResourceDictionary}">-->
-<!--                    <Grid>-->
-<!--                        <TextBlock Margin="2" Text="{Binding Path=Source.OriginalString}" />-->
-<!--                    </Grid>-->
-<!--                </DataTemplate>-->
-<!--            </ListBox.ItemTemplate>-->
-        </ListBox>
-        <ListBox Grid.Row="1" Grid.Column="2" />
+                 SelectionMode="Extended"
+                 dd:DragDrop.IsDragSource="True"
+                 dd:DragDrop.UseDefaultEffectDataTemplate="True"
+                 ItemsSource="{Binding ElementName=This, Path=ResourceDictionaries}" />
+        <ListBox Grid.Row="1"
+                 Grid.Column="2"
+                 SelectionMode="Extended"
+                 dd:DragDrop.IsDragSource="True"
+                 dd:DragDrop.IsDropTarget="True"
+                 dd:DragDrop.UseDefaultEffectDataTemplate="True"
+                 dd:DragDrop.ShowAlwaysDropTargetAdorner="True"
+                 ItemsSource="{Binding ElementName=This, Path=SelectedResourceDictionaries}" />
 
         <StackPanel Grid.Row="2"
                     Grid.Column="0"

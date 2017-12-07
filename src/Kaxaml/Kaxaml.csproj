@@ -69,6 +69,9 @@
       <HintPath>..\packages\Costura.Fody.1.6.2\lib\dotnet\Costura.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="GongSolutions.WPF.DragDrop, Version=1.2.0.57, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\gong-wpf-dragdrop.1.2.0-alpha0057\lib\net46\GongSolutions.WPF.DragDrop.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.TextEditor, Version=3.2.1.6466, Culture=neutral, PublicKeyToken=4d61825e8dd49f1a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\ICSharpCode.TextEditor.3.2.1.6466\lib\Net20\ICSharpCode.TextEditor.dll</HintPath>

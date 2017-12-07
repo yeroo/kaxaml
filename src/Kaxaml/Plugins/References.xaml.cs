@@ -97,6 +97,19 @@ namespace Kaxaml.Plugins
         }
     }
 
+    public class ReferenceResourceDictionary
+    {
+        public ReferenceResourceDictionary(string dictionaryEntryKey, ResourceDictionary resourceDictionary)
+        {
+            this.DictionaryEntryKey = dictionaryEntryKey;
+            this.ResourceDictionary = resourceDictionary;
+        }
+
+        public string DictionaryEntryKey { get; }
+
+        public ResourceDictionary ResourceDictionary { get; }
+    }
+
     public class Reference
     {
         public Reference([NotNull] FileInfo fileInfo)
@@ -142,47 +155,40 @@ namespace Kaxaml.Plugins
             this.TargetFramework = targetFramework?.FrameworkDisplayName;
         }
 
-        public IEnumerable<ResourceDictionary> GetResourceDictionary(Assembly assembly)
+        public IEnumerable<ReferenceResourceDictionary> GetResourceDictionary(Assembly assembly)
         {
             if (assembly == null)
             {
-                return Enumerable.Empty<ResourceDictionary>();
+                return Enumerable.Empty<ReferenceResourceDictionary>();
             }
 
             var assemblyName = assembly.GetName().Name;
             var stream = assembly.GetManifestResourceStream(assemblyName + ".g.resources");
             if (stream == null)
             {
-                return Enumerable.Empty<ResourceDictionary>();
+                return Enumerable.Empty<ReferenceResourceDictionary>();
             }
 
-            var resourceDictionaries = new HashSet<ResourceDictionary>();
+            var resourceDictionaries = new List<ReferenceResourceDictionary>();
 
             using (var reader = new ResourceReader(stream))
             {
-                foreach (var readStream in reader.OfType<DictionaryEntry>().Select(entry => entry.Value).OfType<Stream>())
+                foreach (var dictionaryEntry in reader.OfType<DictionaryEntry>())
                 {
-                    var bamlReader = new Baml2006Reader(readStream);
+                    var readStream = dictionaryEntry.Value as Stream;
+                    if (readStream == null)
+                    {
+                        continue;
+                    }
                     try
                     {
+                        var bamlReader = new Baml2006Reader(readStream);
+
                         var load = XamlReader.Load(bamlReader);
                         var resDict = load as ResourceDictionary;
                         if (resDict != null)
                         {
-                            if (resDict.Source != null)// && resDict.Source.OriginalString.Contains(assemblyName))
-                            {
-                                resourceDictionaries.Add(resDict);
-                            }
-                            foreach (var mergedDictionary in resDict.MergedDictionaries)
-                            {
-                                if (mergedDictionary.Source != null)// && mergedDictionary.Source.OriginalString.Contains(assemblyName))
-                                {
-                                    //if (!resourceDictionaries.Any(rd => rd.Source.OriginalString.ToLower().Equals(mergedDictionary.Source.OriginalString.ToLower())))
-                                    {
-                                        resourceDictionaries.Add(mergedDictionary);
-                                    }
-                                }
-                            }
+                            resourceDictionaries.Add(new ReferenceResourceDictionary(dictionaryEntry.Key as string, resDict));
                         }
                     }
                     catch (Exception e)
@@ -192,7 +198,7 @@ namespace Kaxaml.Plugins
                 }
             }
 
-            return resourceDictionaries.OrderBy(rd => rd.Source.OriginalString, StringComparer.OrdinalIgnoreCase);
+            return resourceDictionaries;
         }
 
         public Assembly Assembly { get; }

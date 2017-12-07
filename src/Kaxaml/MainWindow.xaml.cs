@@ -18,7 +18,6 @@ namespace Kaxaml
     /// <summary>
     /// Interaction logic for Window1.xaml
     /// </summary>
-
     public partial class MainWindow : System.Windows.Window
     {
         //-------------------------------------------------------------------
@@ -199,7 +198,6 @@ namespace Kaxaml
                 WpfDocument doc = new WpfDocument(System.IO.Directory.GetCurrentDirectory());
                 XamlDocuments.Add(doc);
             }
-
         }
 
         void MainWindow_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -208,6 +206,7 @@ namespace Kaxaml
         }
 
         #endregion        //-------------------------------------------------------------------
+
         //
         //  Dependency Properties
         //
@@ -221,7 +220,7 @@ namespace Kaxaml
         /// </summary>
         public ObservableCollection<XamlDocument> XamlDocuments
         {
-            get { return (ObservableCollection<XamlDocument>)GetValue(XamlDocumentsProperty); }
+            get { return (ObservableCollection<XamlDocument>) GetValue(XamlDocumentsProperty); }
             set { SetValue(XamlDocumentsProperty, value); }
         }
 
@@ -238,12 +237,13 @@ namespace Kaxaml
         {
             if (obj is MainWindow)
             {
-                MainWindow owner = (MainWindow)obj;
+                MainWindow owner = (MainWindow) obj;
                 // handle changed event here
             }
         }
 
         #endregion        //-------------------------------------------------------------------
+
         //
         //  Commands
         //
@@ -294,7 +294,6 @@ namespace Kaxaml
                 XamlDocuments.Add(doc);
 
                 this.DocumentsView.SelectedDocument = doc;
-
             }
         }
 
@@ -356,7 +355,6 @@ namespace Kaxaml
                 }
             }
         }
-
 
         #endregion
 
@@ -476,7 +474,7 @@ namespace Kaxaml
                 _OpenReferencesDialog.RestoreDirectory = true;
             }
 
-            if ((bool)_OpenReferencesDialog.ShowDialog())
+            if ((bool) _OpenReferencesDialog.ShowDialog())
             {
                 foreach (string s in _OpenReferencesDialog.FileNames)
                 {
@@ -507,6 +505,7 @@ namespace Kaxaml
                     XamlDocument document = this.DocumentsView.SelectedView.XamlDocument;
                     var reference = args.Parameter as Reference;
                     var chooser = ReferencesResourceDictionaryChooser.Show(reference, Application.Current.MainWindow);
+                    chooser.ShowDialog();
                 }
             }
         }
@@ -774,7 +773,6 @@ namespace Kaxaml
                                 throw;
                             }
                         }
-
                     }
                 }
             }
@@ -971,6 +969,7 @@ namespace Kaxaml
         }
 
         #endregion        //-------------------------------------------------------------------
+
         //
         //  Methods
         //
@@ -978,7 +977,6 @@ namespace Kaxaml
 
 
         #region Public Methods
-
 
         OpenFileDialog _OpenDialog;
 
@@ -996,7 +994,7 @@ namespace Kaxaml
                 _OpenDialog.RestoreDirectory = true;
             }
 
-            if ((bool)_OpenDialog.ShowDialog())
+            if ((bool) _OpenDialog.ShowDialog())
             {
                 XamlDocument first = null;
 
@@ -1045,7 +1043,7 @@ namespace Kaxaml
 
             _SaveDialog.FileName = document.Filename;
 
-            if ((bool)_SaveDialog.ShowDialog())
+            if ((bool) _SaveDialog.ShowDialog())
             {
                 if (document.SaveAs(_SaveDialog.FileName))
                 {
@@ -1061,7 +1059,6 @@ namespace Kaxaml
 
         public void Close(XamlDocument document)
         {
-
         }
 
         #endregion
@@ -1081,7 +1078,7 @@ namespace Kaxaml
                 element = KaxamlInfo.Frame;
             }
 
-            RenderTargetBitmap rtb = new RenderTargetBitmap((int)element.ActualWidth, (int)element.ActualHeight, 96, 96, PixelFormats.Pbgra32);
+            RenderTargetBitmap rtb = new RenderTargetBitmap((int) element.ActualWidth, (int) element.ActualHeight, 96, 96, PixelFormats.Pbgra32);
             rtb.Render(element);
 
             return rtb;
@@ -1093,7 +1090,7 @@ namespace Kaxaml
 
         protected override void OnDrop(DragEventArgs e)
         {
-            string[] filenames = (string[])e.Data.GetData("FileDrop", true);
+            string[] filenames = (string[]) e.Data.GetData("FileDrop", true);
 
             if ((null != filenames) &&
                 (filenames.Length > 0))
@@ -1136,8 +1133,6 @@ namespace Kaxaml
 
     public class WindowTitleConverter : IMultiValueConverter
     {
-
-
         #region IValueConverter Members
 
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
@@ -1146,9 +1141,8 @@ namespace Kaxaml
             {
                 if (values[0] is string && values[1] is bool)
                 {
-
-                    string title = (string)values[0];
-                    if ((bool)values[1]) title = title + "*";
+                    string title = (string) values[0];
+                    if ((bool) values[1]) title = title + "*";
                     title = title + " - Kaxaml";
 
                     return title;
@@ -1160,7 +1154,6 @@ namespace Kaxaml
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
-
             return null;
         }
 

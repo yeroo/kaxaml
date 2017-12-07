@@ -74,6 +74,12 @@ namespace Kaxaml
             this.InputBindings.Add(new InputBinding(binding.Command, new KeyGesture(Key.R, ModifierKeys.Control, "Ctrl+R")));
             this.CommandBindings.Add(binding);
 
+            binding = new CommandBinding(ChooseReferenceResourceDictionariesCommand);
+            binding.Executed += new ExecutedRoutedEventHandler(this.ChooseReferenceResourceDictionaries_Executed);
+            binding.CanExecute += new CanExecuteRoutedEventHandler(this.ChooseReferenceResourceDictionaries_CanExecute);
+            //this.InputBindings.Add(new InputBinding(binding.Command, new KeyGesture(Key.R, ModifierKeys.Control, "Ctrl+R")));
+            this.CommandBindings.Add(binding);
+
             binding = new CommandBinding(OpenCommand);
             binding.Executed += new ExecutedRoutedEventHandler(this.Open_Executed);
             binding.CanExecute += new CanExecuteRoutedEventHandler(this.Open_CanExecute);
@@ -484,6 +490,40 @@ namespace Kaxaml
             }
 
             return false;
+        }
+
+        #endregion
+
+        #region ChooseReferenceResourceDictionariesCommand
+
+        public readonly static RoutedUICommand ChooseReferenceResourceDictionariesCommand = new RoutedUICommand("Choose Resource Dictionaries... ", "ChooseReferenceResourceDictionariesCommand", typeof(MainWindow));
+
+        void ChooseReferenceResourceDictionaries_Executed(object sender, ExecutedRoutedEventArgs args)
+        {
+            if (sender == this)
+            {
+                if (this.DocumentsView.SelectedView != null)
+                {
+                    XamlDocument document = this.DocumentsView.SelectedView.XamlDocument;
+                    var reference = args.Parameter as Reference;
+                    var chooser = ReferencesResourceDictionaryChooser.Show(reference, Application.Current.MainWindow);
+                }
+            }
+        }
+
+        void ChooseReferenceResourceDictionaries_CanExecute(object sender, CanExecuteRoutedEventArgs args)
+        {
+            if (sender == this)
+            {
+                if (this.DocumentsView.SelectedView != null && this.PluginView.ReferencesPlugin?.Root != null)
+                {
+                    args.CanExecute = true;
+                }
+                else
+                {
+                    args.CanExecute = false;
+                }
+            }
         }
 
         #endregion

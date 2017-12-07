@@ -116,6 +116,8 @@ namespace Kaxaml.Plugins
                 asm = null;
             }
 
+            this.Assembly = asm;
+
             var assemblyVersionAttribute = asm?.GetCustomAttribute<AssemblyVersionAttribute>();
             var assemblyFileVersionAttribute = asm?.GetCustomAttribute<AssemblyFileVersionAttribute>();
             var assemblyInformationalVersionAttribute = asm?.GetCustomAttribute<AssemblyInformationalVersionAttribute>();
@@ -138,8 +140,6 @@ namespace Kaxaml.Plugins
 
             var targetFramework = asm?.GetCustomAttribute<TargetFrameworkAttribute>();
             this.TargetFramework = targetFramework?.FrameworkDisplayName;
-
-            var resourceDictionaries = GetResourceDictionary(asm);
         }
 
         public IEnumerable<ResourceDictionary> GetResourceDictionary(Assembly assembly)
@@ -156,7 +156,7 @@ namespace Kaxaml.Plugins
                 return Enumerable.Empty<ResourceDictionary>();
             }
 
-            var resourceDictionaries = new List<ResourceDictionary>();
+            var resourceDictionaries = new HashSet<ResourceDictionary>();
 
             using (var reader = new ResourceReader(stream))
             {
@@ -165,18 +165,22 @@ namespace Kaxaml.Plugins
                     var bamlReader = new Baml2006Reader(readStream);
                     try
                     {
-                        var resDict = XamlReader.Load(bamlReader) as ResourceDictionary;
+                        var load = XamlReader.Load(bamlReader);
+                        var resDict = load as ResourceDictionary;
                         if (resDict != null)
                         {
-                            if (resDict.Source != null && resDict.Source.OriginalString.Contains(assemblyName))
+                            if (resDict.Source != null)// && resDict.Source.OriginalString.Contains(assemblyName))
                             {
                                 resourceDictionaries.Add(resDict);
                             }
                             foreach (var mergedDictionary in resDict.MergedDictionaries)
                             {
-                                if (mergedDictionary.Source != null && mergedDictionary.Source.OriginalString.Contains(assemblyName))
+                                if (mergedDictionary.Source != null)// && mergedDictionary.Source.OriginalString.Contains(assemblyName))
                                 {
-                                    resourceDictionaries.Add(mergedDictionary);
+                                    //if (!resourceDictionaries.Any(rd => rd.Source.OriginalString.ToLower().Equals(mergedDictionary.Source.OriginalString.ToLower())))
+                                    {
+                                        resourceDictionaries.Add(mergedDictionary);
+                                    }
                                 }
                             }
                         }
@@ -188,8 +192,10 @@ namespace Kaxaml.Plugins
                 }
             }
 
-            return resourceDictionaries;
+            return resourceDictionaries.OrderBy(rd => rd.Source.OriginalString, StringComparer.OrdinalIgnoreCase);
         }
+
+        public Assembly Assembly { get; }
 
         public string Name { get; }
 

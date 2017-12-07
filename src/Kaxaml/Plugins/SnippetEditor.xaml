@@ -21,7 +21,7 @@
   <Window.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="\Resources\PluginTheme.xaml" />
+        <ResourceDictionary Source="/Resources/PluginTheme.xaml" />
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Window.Resources>

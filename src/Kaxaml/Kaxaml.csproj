@@ -165,6 +165,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Plugins\ReferencesResourceDictionaryChooser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Plugins\Settings.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -300,6 +304,9 @@
     </Compile>
     <Compile Include="Plugins\References.xaml.cs">
       <DependentUpon>References.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Plugins\ReferencesResourceDictionaryChooser.xaml.cs">
+      <DependentUpon>ReferencesResourceDictionaryChooser.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plugins\Settings.xaml.cs">
       <SubType>Code</SubType>
